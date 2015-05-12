@@ -9,11 +9,16 @@ class Deck
 {
 private :
 
-    std::vector <std::shared_ptr <Card>> m_cards;
+    std::vector <std::pair <std::shared_ptr <Card>, bool>> m_cards;
 
 public:
     Deck();
     ~Deck();
+
+public :
+
+    std::vector <unsigned int> getAvailableCards();
+    void setCardEnabled(unsigned int a_cardId, bool a_enabled);
 
 private :
 

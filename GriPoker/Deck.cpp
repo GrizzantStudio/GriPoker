@@ -17,19 +17,39 @@ unsigned int Deck::addCardFamily(Card::Symbol a_symbol, unsigned int a_startCard
 {
     unsigned int id = a_startCardId;
 
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Two)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Three)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Four)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Five)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Six)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Seven)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Eight)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Nine)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Ten)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Jack)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Queen)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::King)));
-    m_cards.push_back(std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Ace)));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Two)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Three)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Four)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Five)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Six)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Seven)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Eight)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Nine)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Ten)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Jack)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Queen)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::King)), true));
+    m_cards.push_back(std::pair <std::shared_ptr <Card>, bool> (std::shared_ptr <Card> (new Card(id ++, a_symbol, Card::Value::Ace)), true));
 
     return id;
+}
+
+std::vector <unsigned int> Deck::getAvailableCards()
+{
+    std::vector <unsigned int> availableCards;
+
+    for(const auto & card : m_cards)
+    {
+        if(card.second)
+        {
+            availableCards.push_back(card.first->getId());
+        }
+    }
+
+    return availableCards;
+}
+
+void Deck::setCardEnabled(unsigned int a_cardId, bool a_enabled)
+{
+    m_cards[a_cardId].second = a_enabled;
 }

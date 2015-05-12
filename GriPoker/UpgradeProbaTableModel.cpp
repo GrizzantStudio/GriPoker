@@ -1,6 +1,7 @@
 #include "UpgradeProbaTableModel.h"
 
 #include <QColor>
+#include <Maths.h>
 
 #define TOTAL_CARD_COUNT 52.f
 #define PREFLOP_CARD_LEFT_COUNT (TOTAL_CARD_COUNT - 2.f)
@@ -35,7 +36,7 @@ QVariant UpgradeProbaTableModel::data ( const QModelIndex & index, int role ) co
         float outs = 20.f - (float) index.row();
         float turnProba = outs / FLOP_CARD_LEFT_COUNT * 100.f;
         float riverProba = outs / TURN_CARD_LEFT_COUNT * 100.f;
-        float turnRiverProba = (binomialCoeff((int) FLOP_CARD_LEFT_COUNT, 2) - binomialCoeff((int) FLOP_CARD_LEFT_COUNT - outs, 2)) / (float) binomialCoeff((int) FLOP_CARD_LEFT_COUNT, 2) * 100.f;
+        float turnRiverProba = (Maths::binomialCoeff((int) FLOP_CARD_LEFT_COUNT, 2) - Maths::binomialCoeff((int) FLOP_CARD_LEFT_COUNT - outs, 2)) / (float) Maths::binomialCoeff((int) FLOP_CARD_LEFT_COUNT, 2) * 100.f;
 
         float turnProbaEstimation = outs * 2.f;
         float riverProbaEstimation = outs * 2.f;
@@ -46,9 +47,9 @@ QVariant UpgradeProbaTableModel::data ( const QModelIndex & index, int role ) co
         float turnRiverProbaDelta = turnRiverProbaEstimation - turnRiverProba;
 
         if(index.column() == 0) return (int) outs;
-        if(index.column() == 1) return QString("%1% (%2%/%3%)").arg(roundProba(turnProba)).arg(roundProba(turnProbaEstimation)).arg(roundProba(turnProbaDelta));
-        if(index.column() == 2) return QString("%1% (%2%/%3%)").arg(roundProba(riverProba)).arg(roundProba(riverProbaEstimation)).arg(roundProba(riverProbaDelta));
-        if(index.column() == 3) return QString("%1% (%2%/%3%)").arg(roundProba(turnRiverProba)).arg(roundProba(turnRiverProbaEstimation)).arg(roundProba(turnRiverProbaDelta));
+        if(index.column() == 1) return QString("%1% (%2%/%3%)").arg(Maths::roundProba(turnProba)).arg(Maths::roundProba(turnProbaEstimation)).arg(Maths::roundProba(turnProbaDelta));
+        if(index.column() == 2) return QString("%1% (%2%/%3%)").arg(Maths::roundProba(riverProba)).arg(Maths::roundProba(riverProbaEstimation)).arg(Maths::roundProba(riverProbaDelta));
+        if(index.column() == 3) return QString("%1% (%2%/%3%)").arg(Maths::roundProba(turnRiverProba)).arg(Maths::roundProba(turnRiverProbaEstimation)).arg(Maths::roundProba(turnRiverProbaDelta));
     }
     else if(role == Qt::BackgroundColorRole)
     {
@@ -80,25 +81,3 @@ Qt::ItemFlags UpgradeProbaTableModel::flags ( const QModelIndex & index ) const
     return Qt::ItemIsEnabled;
 }
 
-float UpgradeProbaTableModel::roundProba(float a_proba) const
-{
-    return roundf(a_proba * 10.f) / 10.f;
-}
-
-int UpgradeProbaTableModel::binomialCoeff(int n, int k) const
-{
-    int res = 1;
-
-    // Since C(n, k) = C(n, n-k)
-    if ( k > n - k )
-        k = n - k;
-
-    // Calculate value of [n * (n-1) *---* (n-k+1)] / [k * (k-1) *----* 1]
-    for (int i = 0; i < k; ++i)
-    {
-        res *= (n - i);
-        res /= (i + 1);
-    }
-
-    return res;
-}

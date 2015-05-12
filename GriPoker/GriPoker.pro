@@ -20,7 +20,18 @@ SOURCES += main.cpp\
     Deck.cpp \
     Hand.cpp \
     Game.cpp \
-    Dealer.cpp
+    Dealer.cpp \
+    StartHandTableView.cpp \
+    StartHandTableModel.cpp \
+    HandWidget.cpp \
+    Maths.cpp \
+    CardpediaTableModel.cpp \
+    CardpediaTableView.cpp \
+    CardpediaTableModel.cpp \
+    GameCardsTableModel.cpp \
+    GameCardsTableView.cpp \
+    CombinaisonTableView.cpp \
+    CombinaisonTableModel.cpp
 
 HEADERS  += MainWindow.h \
     UpgradeProbaTableView.h \
@@ -29,6 +40,21 @@ HEADERS  += MainWindow.h \
     Deck.h \
     Hand.h \
     Game.h \
-    Dealer.h
+    Dealer.h \
+    StartHandTableView.h \
+    StartHandTableModel.h \
+    HandWidget.h \
+    Maths.h \
+    CardpediaTableModel.h \
+    CardpediaTableView.h \
+    CardpediaTableModel.h \
+    GameCardsTableModel.h \
+    GameCardsTableView.h \
+    EnumFlags.h \
+    CombinaisonTableView.h \
+    CombinaisonTableModel.h
 
 FORMS    += MainWindow.ui
+
+RESOURCES += \
+    images.qrc
