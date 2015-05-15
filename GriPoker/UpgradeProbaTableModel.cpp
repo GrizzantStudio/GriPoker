@@ -1,7 +1,7 @@
 #include "UpgradeProbaTableModel.h"
 
 #include <QColor>
-#include <Maths.h>
+#include "Maths.h"
 
 #define TOTAL_CARD_COUNT 52.f
 #define PREFLOP_CARD_LEFT_COUNT (TOTAL_CARD_COUNT - 2.f)
@@ -36,7 +36,7 @@ QVariant UpgradeProbaTableModel::data ( const QModelIndex & index, int role ) co
         float outs = 20.f - (float) index.row();
         float turnProba = outs / FLOP_CARD_LEFT_COUNT * 100.f;
         float riverProba = outs / TURN_CARD_LEFT_COUNT * 100.f;
-        float turnRiverProba = (Maths::binomialCoeff((int) FLOP_CARD_LEFT_COUNT, 2) - Maths::binomialCoeff((int) FLOP_CARD_LEFT_COUNT - outs, 2)) / (float) Maths::binomialCoeff((int) FLOP_CARD_LEFT_COUNT, 2) * 100.f;
+        float turnRiverProba = (Maths::binomialCoeff((int) FLOP_CARD_LEFT_COUNT, 2) - Maths::binomialCoeff(FLOP_CARD_LEFT_COUNT - outs, 2)) / (float) Maths::binomialCoeff(FLOP_CARD_LEFT_COUNT, 2) * 100.f;
 
         float turnProbaEstimation = outs * 2.f;
         float riverProbaEstimation = outs * 2.f;

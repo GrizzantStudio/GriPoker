@@ -4,7 +4,7 @@
 #include <iostream>
 #include <QMimeData>
 
-#include <Card.h>
+#include "Card.h"
 
 GameCardsTableModel::GameCardsTableModel()
 {

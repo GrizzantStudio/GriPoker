@@ -4,11 +4,13 @@
 #include <Card.h>
 #include <memory>
 #include <QPixmap>
+#include <QMap>
+#include <QVector>
 
 class HandWidget;
 
 class Hand
-{
+{   
 private :
 
     std::shared_ptr <Card> m_firstCard;
@@ -16,6 +18,8 @@ private :
     std::unique_ptr <HandWidget> m_handWidget;
     bool m_displayIsUpToDate;
     QPixmap m_display;
+
+    bool m_probabilitiesAreUpToDate;
 
 public:
     Hand();

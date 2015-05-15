@@ -31,7 +31,10 @@ SOURCES += main.cpp\
     GameCardsTableModel.cpp \
     GameCardsTableView.cpp \
     CombinaisonTableView.cpp \
-    CombinaisonTableModel.cpp
+    CombinaisonTableModel.cpp \
+    Combinaison.cpp \
+    HierarchicalHeaderView.cpp \
+    ProxyModelWithHeaderModels.cpp
 
 HEADERS  += MainWindow.h \
     UpgradeProbaTableView.h \
@@ -52,9 +55,14 @@ HEADERS  += MainWindow.h \
     GameCardsTableView.h \
     EnumFlags.h \
     CombinaisonTableView.h \
-    CombinaisonTableModel.h
+    CombinaisonTableModel.h \
+    Combinaison.h \
+    HierarchicalHeaderView.h \
+    ProxyModelWithHeaderModels.h
 
 FORMS    += MainWindow.ui
 
 RESOURCES += \
     images.qrc
+
+INCLUDEPATH += .

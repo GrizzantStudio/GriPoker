@@ -2,8 +2,9 @@
 #define CARD_H
 
 #include <memory>
+#include <string>
 
-#include "EnumFlags.h"
+#include <EnumFlags.h>
 
 class QPixmap;
 

@@ -1,26 +1,37 @@
-#include "Maths.h"
+#include <Maths.h>
+#include <cmath>
 
-#include <math.h>
+float Maths::roundf(float x)
+{
+   return x >= 0.0f ? floorf(x + 0.5f) : ceilf(x - 0.5f);
+}
 
 float Maths::roundProba(float a_proba)
 {
     return roundf(a_proba * 10.f) / 10.f;
 }
 
-int Maths::binomialCoeff(int n, int k)
+double factorial(double nValue)
 {
-    int res = 1;
+    if(nValue <= 2)
+        return nValue;
 
-    // Since C(n, k) = C(n, n-k)
-    if ( k > n - k )
-        k = n - k;
+   double result = nValue;
+   double result_next;
+   double pc = nValue;
+   do
+   {
+       result_next = result*(pc-1);
+       result = result_next;
+       pc--;
+   }while(pc>2);
+   return result;
+}
 
-    // Calculate value of [n * (n-1) *---* (n-k+1)] / [k * (k-1) *----* 1]
-    for (int i = 0; i < k; ++i)
-    {
-        res *= (n - i);
-        res /= (i + 1);
-    }
-
-    return res;
+double Maths::binomialCoeff(double nValue, double nValue2)
+{
+   double result;
+   if(nValue2 == 1)return nValue;
+   result = (factorial(nValue))/(factorial(nValue2)*factorial((nValue - nValue2)));
+   return result;
 }
