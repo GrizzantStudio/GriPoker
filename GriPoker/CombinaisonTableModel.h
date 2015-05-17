@@ -40,6 +40,9 @@ private :
     void fillHeaderModel(QStandardItemModel& headerModel);
     float computeProba(Combinaison::Type a_combinaisonType, unsigned int a_playerCount, unsigned int a_card1Value, unsigned int a_card2Value, bool a_assorted);
     float computeBrelanProba(unsigned int a_playerCount, unsigned int a_card1Value, unsigned int a_card2Value);
+    float computeBrelanProba2(unsigned int a_card1Value, unsigned int a_card2Value);
+    float computePairProba(unsigned int a_playerCount, unsigned int a_card1Value, unsigned int a_card2Value);
+    float computeDoublePairProba(unsigned int a_playerCount, unsigned int a_card1Value, unsigned int a_card2Value);
 
 public :
 
