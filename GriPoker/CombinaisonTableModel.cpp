@@ -4,8 +4,47 @@
 #include <iostream>
 #include <HierarchicalHeaderView.h>
 
+#include <chrono>
+#include <ctime>
+
 CombinaisonTableModel::CombinaisonTableModel()
 {
+    std::chrono::time_point <std::chrono::system_clock> start = std::chrono::system_clock::now();
+
+    double handCount = Maths::binomialCoeff(52, 2);
+    double boardCount = Maths::binomialCoeff(50, 5);
+
+    std::cout << handCount << " hands" << std::endl;
+
+    unsigned int total = 0;
+    unsigned int firstCardId = 0;
+    unsigned int secondCardId = 1;
+
+    for(unsigned int handIndex = 0; handIndex < handCount; ++ handIndex)
+    {
+        for(unsigned int boardIndex = 0; boardIndex < boardCount; ++ boardIndex)
+        {
+            ++ total;
+        }
+
+        ++ secondCardId;
+        if(secondCardId > 51)
+        {
+            ++ firstCardId;
+            secondCardId = firstCardId + 1;
+
+            if(firstCardId >= 51)
+                std::cout << "[" << firstCardId << ", " << secondCardId << "] hum hum" << std::endl;
+        }
+    }
+
+    std::chrono::time_point <std::chrono::system_clock> end = std::chrono::system_clock::now();
+
+    std::chrono::duration<double> elapsed_seconds = end-start;
+    std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+
+    std::cout << "[" << std::to_string(total) << "] finished computation at " << std::ctime(&end_time) << "elapsed time: " << elapsed_seconds.count() << "s\n";
+
     m_combinaisons = Combinaison::getAllCombinaisons();
 
     for(int i = 2; i <= 14; ++i)
@@ -89,8 +128,8 @@ CombinaisonTableModel::CombinaisonTableModel()
 
     fillHeaderModel(_horizontalHeaderModel);
 
-    computeBrelanProba(1, 2, 2);
-    computeBrelanProba2(2, 2);
+    //computeBrelanProba(1, 2, 2);
+    //computeBrelanProba2(2, 2);
     //std::cout << Maths::binomialCoeff(45, 3) << std::endl;
     //std::cout << Maths::binomialCoeff(3, 2) << std::endl;
 }
@@ -196,7 +235,7 @@ float CombinaisonTableModel::computeProba(Combinaison::Type a_combinaisonType, u
     return proba;
 }
 
-//#define LOG_ENABLED
+#define LOG_ENABLED
 #if defined(LOG_ENABLED)
     #define LOG2(X,Y) std::cout << QString("%1 : %2").arg(X).arg(Y).toStdString() << std::endl;
     #define LOG1(X) std::cout << QString("%1").arg(X).toStdString() << std::endl;

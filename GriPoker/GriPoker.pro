@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     CombinaisonTableModel.cpp \
     Combinaison.cpp \
     HierarchicalHeaderView.cpp \
-    ProxyModelWithHeaderModels.cpp
+    ProxyModelWithHeaderModels.cpp \
+    CalculatriceTabWidget.cpp
 
 HEADERS  += MainWindow.h \
     UpgradeProbaTableView.h \
@@ -58,7 +59,8 @@ HEADERS  += MainWindow.h \
     CombinaisonTableModel.h \
     Combinaison.h \
     HierarchicalHeaderView.h \
-    ProxyModelWithHeaderModels.h
+    ProxyModelWithHeaderModels.h \
+    CalculatriceTabWidget.h
 
 FORMS    += MainWindow.ui
 
