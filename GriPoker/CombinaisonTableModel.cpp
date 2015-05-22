@@ -7,34 +7,141 @@
 #include <chrono>
 #include <ctime>
 
+#define Spade 0
+#define Hearth 1
+#define Diamond 2
+#define Club 3
+
+#define Two 0
+#define Three 1
+#define Four 2
+#define Five 3
+#define Six 4
+#define Seven 5
+#define Eight 6
+#define Nine 7
+#define Ten 8
+#define Jack 9
+#define Queen 10
+#define King 11
+#define Ace 12
+
 CombinaisonTableModel::CombinaisonTableModel()
 {
     std::chrono::time_point <std::chrono::system_clock> start = std::chrono::system_clock::now();
 
-    double handCount = Maths::binomialCoeff(52, 2);
-    double boardCount = Maths::binomialCoeff(50, 5);
+    unsigned long handCount = (unsigned long) Maths::binomialCoeff(52, 2);
+    unsigned long boardCount = (unsigned long) Maths::binomialCoeff(50, 5);
 
-    std::cout << handCount << " hands" << std::endl;
+    double val1d = Maths::binomialCoeff(52, 2);
+    unsigned long val1ul = (unsigned long) val1d;
 
-    unsigned int total = 0;
-    unsigned int firstCardId = 0;
-    unsigned int secondCardId = 1;
+    double val2d = Maths::binomialCoeff(50, 5);
+    unsigned long val2ul = (unsigned long) val2d;
+
+    double multd = val1d * val2d;
+    double multul = val1ul * val2ul;
+
+    std::cout << "(" << std::to_string(val1d) << ", " << std::to_string(val1ul) << ") (" << std::to_string(val2d) << ", " << std::to_string(val2ul) << ") (" << std::to_string(multd) << ", " << std::to_string(multul) << ") " << std::endl;
+
+    std::cout << " " << std::to_string(Maths::binomialCoeff(50, 5)) << std::endl;
+    std::cout << std::to_string(handCount) << " " << std::to_string(Maths::binomialCoeff(52, 2)) << " hands" << std::endl;
+    std::cout << std::to_string(boardCount * handCount) << " " << std::to_string(Maths::binomialCoeff(52, 2) * Maths::binomialCoeff(50, 5)) << " boards" << std::endl;
+
+    unsigned long totalBoard = 0;
+    unsigned long totalHand = 0;
+
+    unsigned int symbols [] = {Spade, Hearth, Diamond, Club};
+    unsigned int values [] = {Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace};
+    unsigned int symbolCount = 4;
+    unsigned int valueCount = 13;
+    unsigned int cardCount = symbolCount * valueCount;
+
+    std::pair <unsigned int, unsigned int> cards [52];
+
+    for(unsigned int symbolIndex = 0; symbolIndex < symbolCount; ++ symbolIndex)
+    {
+        for(unsigned int valueIndex = 0; valueIndex < valueCount; ++ valueIndex)
+        {
+            cards[valueCount * symbolIndex + valueIndex].first = symbols[symbolIndex];
+            cards[valueCount * symbolIndex + valueIndex].second = values[valueIndex];
+        }
+    }
+
+    unsigned int hand1 = 0;
+    unsigned int hand2 = 1;
 
     for(unsigned int handIndex = 0; handIndex < handCount; ++ handIndex)
     {
+        unsigned int board1 = 0;
+        while(board1 == hand1 || board1 == hand2) ++ board1;
+
+        unsigned int board2 = board1 + 1;
+        while(board2 == hand1 || board2 == hand2) ++ board2;
+
+        unsigned int board3 = board2 + 1;
+        while(board3 == hand1 || board3 == hand2) ++ board3;
+
+        unsigned int board4 = board3 + 1;
+        while(board4 == hand1 || board4 == hand2) ++ board4;
+
+        unsigned int board5 = board4 + 1;
+        while(board5 == hand1 || board5 == hand2) ++ board5;
+
         for(unsigned int boardIndex = 0; boardIndex < boardCount; ++ boardIndex)
         {
-            ++ total;
+            ++ board5;
+            while(board5 == hand1 || board5 == hand2) ++ board5;
+
+            if(board5 >= cardCount)
+            {
+                ++ board4;
+                while(board4 == hand1 || board4 == hand2) ++ board4;
+
+                if(board4 >= cardCount - 1)
+                {
+                    ++ board3;
+                    while(board3 == hand1 || board3 == hand2) ++ board3;
+
+                    if(board3 >= cardCount - 2)
+                    {
+                        ++ board2;
+                        while(board2 == hand1 || board2 == hand2) ++ board2;
+
+                        if(board2 >= cardCount - 3)
+                        {
+                            ++ board1;
+                            while(board1 == hand1 || board1 == hand2) ++ board1;
+
+                            board2 = board1 + 1;
+                            while(board2 == hand1 || board2 == hand2) ++ board2;
+                        }
+
+                        board3 = board2 + 1;
+                        while(board3 == hand1 || board3 == hand2) ++ board3;
+                    }
+
+                    board4 = board3 + 1;
+                    while(board4 == hand1 || board4 == hand2) ++ board4;
+                }
+
+                board5 = board4 + 1;
+                while(board5 == hand1 || board5 == hand2) ++ board5;
+            }
+
+            ++ totalBoard;
         }
 
-        ++ secondCardId;
-        if(secondCardId > 51)
-        {
-            ++ firstCardId;
-            secondCardId = firstCardId + 1;
+        ++ hand2;
+        ++ totalHand;
 
-            if(firstCardId >= 51)
-                std::cout << "[" << firstCardId << ", " << secondCardId << "] hum hum" << std::endl;
+        if(hand2 > cardCount - 1)
+        {
+            ++ hand1;
+            hand2 = hand1 + 1;
+
+            if(hand1 >= cardCount - 1)
+                std::cout << "[" << hand1 << ", " << hand2 << "] hum hum" << std::endl;
         }
     }
 
@@ -43,7 +150,7 @@ CombinaisonTableModel::CombinaisonTableModel()
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::time_t end_time = std::chrono::system_clock::to_time_t(end);
 
-    std::cout << "[" << std::to_string(total) << "] finished computation at " << std::ctime(&end_time) << "elapsed time: " << elapsed_seconds.count() << "s\n";
+    std::cout << "[hands " << std::to_string(totalHand) << ", boards " << std::to_string(totalBoard) << "] finished computation at " << std::ctime(&end_time) << "elapsed time: " << elapsed_seconds.count() << "s\n";
 
     m_combinaisons = Combinaison::getAllCombinaisons();
 
